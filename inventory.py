@@ -1,3 +1,5 @@
+from product import Product
+
 class Inventory:
     def __init__(self):
         self._products = []
@@ -29,3 +31,7 @@ class Inventory:
         for product in self._products:
             products.append(product.to_dict())
         return {"products": products}
+
+    def load_products(self, products):
+        for item in products:
+            self.add_product(Product(item["id"], item["name"], item["price"], item["stock"]))
