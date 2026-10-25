@@ -11,7 +11,7 @@ class Product:
 
     @property
     def name(self):
-        return self._id
+        return self._name
 
     @property
     def price(self):
