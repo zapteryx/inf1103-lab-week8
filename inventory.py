@@ -23,15 +23,15 @@ class Inventory:
             print("There are no items in the inventory.")
             return
         for product in self._products:
-            print(f"ID: {product.id} | Name: {product.name} | Price: ${product.price:.2f} | Stock: {product.stock}")
+            product.display_information()
         print("-" * 50)
+
+    def load_products(self, products):
+        for item in products:
+            self.add_product(Product(item["id"], item["name"], item["price"], item["stock"]))
 
     def to_dict(self):
         products = []
         for product in self._products:
             products.append(product.to_dict())
         return {"products": products}
-
-    def load_products(self, products):
-        for item in products:
-            self.add_product(Product(item["id"], item["name"], item["price"], item["stock"]))

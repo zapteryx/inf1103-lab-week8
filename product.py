@@ -9,17 +9,8 @@ class Product:
     def id(self):
         return self._id
 
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def price(self):
-        return self._price
-
-    @property
-    def stock(self):
-        return self._stock
+    def display_information(self):
+        print(f"ID: {self._id} | Name: {self._name} | Price: ${self._price:.2f} | Stock: {self._stock}")
 
     def update_stock(self, new_stock):
         if new_stock < 0:

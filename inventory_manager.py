@@ -90,8 +90,7 @@ def update_stock_wizard(inventory):
         print("Could not find a product with that Product ID. Returning to menu.")
         return
     print("Product Found:")
-    print("Name:", product.name)
-    print("Current Stock:", product.stock)
+    product.display_information()
     print()
     while True:
         try:
@@ -116,10 +115,7 @@ def search_product_wizard(inventory):
         return
     print("Product Found")
     print("-" * 50)
-    print("ID:", product.id)
-    print("Name:", product.name)
-    print(f"Price: ${product.price:.2f}")
-    print("Stock:", product.stock)
+    product.display_information()
     print("-" * 50)
 
 def main():
