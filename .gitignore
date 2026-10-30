@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+
+log.txt
+*.zip
+*.png
+
+inventory.json
+
+.DS_Store
