@@ -1,4 +1,4 @@
-from product import Product
+from product import PhysicalProduct, DigitalProduct
 
 class Inventory:
     def __init__(self):
@@ -28,7 +28,10 @@ class Inventory:
 
     def load_products(self, products):
         for item in products:
-            self.add_product(Product(item["id"], item["name"], item["price"], item["stock"]))
+            if item["type"] == "physical":
+                self.add_product(PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item["weight"]))
+            elif item["type"] == "digital":
+                self.add_product(DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item["download_size"]))
 
     def to_dict(self):
         products = []

@@ -1,6 +1,6 @@
 import json
 from inventory import Inventory
-from product import Product
+from product import PhysicalProduct, DigitalProduct
 
 def load_inventory():
     inventory = Inventory()
@@ -44,6 +44,12 @@ def get_menu_option():
 def add_product_wizard(inventory):
     print("Add New Product")
     while True:
+        product_type = input("Product Type (Physical / Digital): ")
+        if str.lower(product_type) not in ["physical", "digital"]:
+            print("Product Type can only be Physical or Digital.")
+            continue
+        break
+    while True:
         product_id = input("Product ID: ")
         if inventory.search_product(product_id) is not None:
             print("Product ID already exists. Please use a different Product ID.")
@@ -77,8 +83,35 @@ def add_product_wizard(inventory):
             print("The entered Stock Quantity is not a valid number.")
             continue
         break
+    if product_type == "physical":
+        while True:
+            product_weight = input("Product Weight (kg): ")
+            try:
+                product_weight = float(product_weight)
+                if product_weight < 0:
+                    print("The entered Weight cannot be negative.")
+                    continue
+            except ValueError:
+                print("The entered Weight is not a valid number.")
+                continue
+            break
+    elif product_type == "digital":
+        while True:
+            product_download_size = input("Product Download Size (MB): ")
+            try:
+                product_download_size = float(product_download_size)
+                if product_download_size < 0:
+                    print("The entered Download Size cannot be negative.")
+                    continue
+            except ValueError:
+                print("The entered Download Size is not a valid number.")
+                continue
+            break
     print()
-    product = Product(product_id, product_name, product_price, product_stock)
+    if product_type == "physical":
+        product = PhysicalProduct(product_id, product_name, product_price, product_stock, product_weight)
+    elif product_type == "digital":
+        product = DigitalProduct(product_id, product_name, product_price, product_stock, product_download_size)
     inventory.add_product(product)
     print("Product added successfully!")
 
