@@ -1,4 +1,6 @@
-class Product:
+from abc import ABC, abstractmethod
+
+class Product(ABC):
     def __init__(self, product_id, name, price, stock):
         self._id = product_id
         self._name = name
@@ -24,6 +26,11 @@ class Product:
             "price": self._price,
             "stock": self._stock
         }
+
+    @abstractmethod
+    def get_fulfilment_info():
+        pass
+
 class PhysicalProduct(Product):
     def __init__(self, product_id, name, price, stock, weight):
         super().__init__(product_id, name, price, stock)
@@ -33,6 +40,9 @@ class PhysicalProduct(Product):
         super().display_information()
         print(f"Weight: {self._weight:.2f}kg")
 
+    def get_fulfilment_info():
+        print("The product requires shipping.")
+
 class DigitalProduct(Product):
     def __init__(self, product_id, name, price, stock, download_size):
         super().__init__(product_id, name, price, stock)
@@ -41,3 +51,6 @@ class DigitalProduct(Product):
     def display_information(self):
         super().display_information()
         print(f"Download Size: {self._download_size:.2f} MB")
+
+    def get_fulfilment_info():
+        print("The product will be delivered digitally.")
