@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 class CanBeShipped(ABC):
     @abstractmethod
-    def calculate_shipping_cost():
+    def calculate_shipping_cost(self):
         pass
 
 class Product(ABC):
@@ -33,7 +33,7 @@ class Product(ABC):
         }
 
     @abstractmethod
-    def get_fulfilment_info():
+    def get_fulfilment_info(self):
         pass
 
 class PhysicalProduct(Product, CanBeShipped):
@@ -45,7 +45,7 @@ class PhysicalProduct(Product, CanBeShipped):
         super().display_information()
         print(f"Weight: {self._weight:.2f}kg")
 
-    def get_fulfilment_info():
+    def get_fulfilment_info(self):
         print("The product requires shipping.")
 
     def calculate_shipping_cost(self):
@@ -66,7 +66,7 @@ class DigitalProduct(Product):
         super().display_information()
         print(f"Download Size: {self._download_size:.2f} MB")
 
-    def get_fulfilment_info():
+    def get_fulfilment_info(self):
         print("The product will be delivered digitally.")
 
     def to_dict(self):
