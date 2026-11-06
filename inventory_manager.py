@@ -13,7 +13,7 @@ def load_inventory():
         print("inventory.json not found. Using blank inventory.")
     return inventory
 
-def save_inventory(inventory):
+def save_inventory(inventory: Inventory):
     with open("inventory.json", "w") as file:
         json.dump(inventory.to_dict(), file, indent=4)
     print("Inventory saved successfully to inventory.json.")
@@ -41,7 +41,7 @@ def get_menu_option():
             print("Invalid option. Please try again.")
     return option
 
-def add_product_wizard(inventory):
+def add_product_wizard(inventory: Inventory):
     print("Add New Product")
     while True:
         product_type = input("Product Type (Physical / Digital): ")
@@ -112,10 +112,12 @@ def add_product_wizard(inventory):
         product = PhysicalProduct(product_id, product_name, product_price, product_stock, product_weight)
     elif product_type == "digital":
         product = DigitalProduct(product_id, product_name, product_price, product_stock, product_download_size)
+    else:
+        raise ValueError("Invalid product type.")
     inventory.add_product(product)
     print("Product added successfully!")
 
-def update_stock_wizard(inventory):
+def update_stock_wizard(inventory: Inventory):
     print("Update Stock")
     product_id = input("Enter Product ID: ")
     product = inventory.search_product(product_id)
@@ -139,7 +141,7 @@ def update_stock_wizard(inventory):
     print()
     print("Stock updated successfully!")
 
-def search_product_wizard(inventory):
+def search_product_wizard(inventory: Inventory):
     print("Search Product")
     product_id = input("Enter Product ID: ")
     product = inventory.search_product(product_id)
