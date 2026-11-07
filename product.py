@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from supplier import Supplier
 
 class CanBeShipped(ABC):
     @abstractmethod
@@ -6,11 +7,12 @@ class CanBeShipped(ABC):
         pass
 
 class Product(ABC):
-    def __init__(self, product_id: str, name: str, price: float, stock: int):
+    def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier):
         self._id: str = product_id
         self._name: str = name
         self._price: float = price
         self._stock: int = stock
+        self._supplier: Supplier = supplier
 
     @property
     def id(self):
@@ -27,6 +29,10 @@ class Product(ABC):
     @property
     def stock(self):
         return self._stock
+
+    @property
+    def supplier(self):
+        return self._supplier
 
     @property
     @abstractmethod
@@ -46,16 +52,17 @@ class Product(ABC):
             "id": self._id,
             "name": self._name,
             "price": self._price,
-            "stock": self._stock
+            "stock": self._stock,
+            "supplier": self._supplier.supplier_id
         }
 
     @abstractmethod
-    def get_fulfilment_info(self):
+    def get_fulfilment_info(self) -> str:
         pass
 
 class PhysicalProduct(Product, CanBeShipped):
-    def __init__(self, product_id: str, name: str, price: float, stock: int, weight: float):
-        super().__init__(product_id, name, price, stock)
+    def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier, weight: float):
+        super().__init__(product_id, name, price, stock, supplier)
         self._weight: float = weight
 
     @property
@@ -70,8 +77,8 @@ class PhysicalProduct(Product, CanBeShipped):
         super().display_information()
         print(f"Weight: {self._weight:.2f}kg")
 
-    def get_fulfilment_info():
-        print("The product requires shipping.")
+    def get_fulfilment_info(self):
+        return f"The product requires shipping. Shipping cost: ${self.calculate_shipping_cost():.2f}"
 
     def calculate_shipping_cost(self):
         return 1.5 * self._weight
@@ -83,8 +90,8 @@ class PhysicalProduct(Product, CanBeShipped):
         return product
 
 class DigitalProduct(Product):
-    def __init__(self, product_id: str, name: str, price: float, stock: int, download_size: float):
-        super().__init__(product_id, name, price, stock)
+    def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier, download_size: float):
+        super().__init__(product_id, name, price, stock, supplier)
         self._download_size: float = download_size
 
     @property
@@ -100,7 +107,7 @@ class DigitalProduct(Product):
         print(f"Download Size: {self._download_size:.2f} MB")
 
     def get_fulfilment_info(self):
-        print("The product will be delivered digitally.")
+        return "The product will be delivered digitally."
 
     def to_dict(self) -> dict[str, str | float | int]:
         product: dict[str, str | float | int] = super().to_dict()

@@ -6,5 +6,6 @@ log.txt
 *.png
 
 inventory.json
+suppliers.json
 
 .DS_Store
