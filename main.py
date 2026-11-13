@@ -1,7 +1,7 @@
 import json
 from inventory import Inventory
 from order import Order
-from product import DigitalProduct, PhysicalProduct
+from product_factory import ProductFactory
 from supplier import Supplier
 
 def load_inventory(suppliers: list[Supplier]):
@@ -160,22 +160,24 @@ def add_product_wizard(inventory: Inventory, suppliers: list[Supplier]):
             break
     print()
     if product_type == "physical":
-        product = PhysicalProduct(
+        product = ProductFactory.create(
+            "physical",
             product_id,
             product_name,
             product_price,
             product_stock,
             supplier,
-            product_weight,
+            weight=product_weight
         )
     elif product_type == "digital":
-        product = DigitalProduct(
+        product = ProductFactory.create(
+            "digital",
             product_id,
             product_name,
             product_price,
             product_stock,
             supplier,
-            product_download_size,
+            download_size=product_download_size
         )
     else:
         raise ValueError("Invalid product type.")

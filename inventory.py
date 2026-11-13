@@ -1,4 +1,5 @@
-from product import Product, PhysicalProduct, DigitalProduct
+from product import Product
+from product_factory import ProductFactory
 from supplier import Supplier
 
 class Inventory:
@@ -49,9 +50,15 @@ class Inventory:
                 raise ValueError(f"Supplier with ID {item['supplier']} not found.")
             product_type = item.get("type")
             if product_type == "physical":
-                self.add_product(PhysicalProduct(str(item["id"]), str(item["name"]), float(item["price"]), int(item["stock"]), supplier, float(item["weight"])))
+                product = ProductFactory.create("physical", str(item["id"]), str(item["name"]),
+                                                float(item["price"]), int(item["stock"]),
+                                                supplier, weight=float(item["weight"]))
+                self.add_product(product)
             elif product_type == "digital":
-                self.add_product(DigitalProduct(str(item["id"]), str(item["name"]), float(item["price"]), int(item["stock"]), supplier, float(item["download_size"])))
+                product = ProductFactory.create("digital", str(item["id"]), str(item["name"]),
+                                                float(item["price"]), int(item["stock"]),
+                                                supplier, download_size=float(item["download_size"]))
+                self.add_product(product)
 
     def to_dict(self) -> dict[str, list[dict[str, str | float | int]]]:
         products: list[dict[str, str | float | int]] = []
