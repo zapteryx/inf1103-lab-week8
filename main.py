@@ -3,6 +3,7 @@ from inventory import Inventory
 from order import Order
 from product_factory import ProductFactory
 from supplier import Supplier
+from file_utils import get_positive_float
 
 def load_inventory(suppliers: list[Supplier]):
     inventory = Inventory()
@@ -97,17 +98,7 @@ def add_product_wizard(inventory: Inventory, suppliers: list[Supplier]):
             print("Please provide a Product Name.")
             continue
         break
-    while True:
-        product_price = input("Price: ")
-        try:
-            product_price = float(product_price)
-            if product_price < 0:
-                print("The entered Price cannot be negative.")
-                continue
-        except ValueError:
-            print("The entered Price is not a valid number.")
-            continue
-        break
+    product_price = get_positive_float("Price: ")
     while True:
         product_stock = input("Stock Quantity: ")
         try:
@@ -135,29 +126,9 @@ def add_product_wizard(inventory: Inventory, suppliers: list[Supplier]):
     product_weight = 0
     product_download_size = 0
     if product_type == "physical":
-        while True:
-            product_weight = input("Product Weight (kg): ")
-            try:
-                product_weight = float(product_weight)
-                if product_weight < 0:
-                    print("The entered Weight cannot be negative.")
-                    continue
-            except ValueError:
-                print("The entered Weight is not a valid number.")
-                continue
-            break
+        product_weight = get_positive_float("Product Weight (kg): ")
     elif product_type == "digital":
-        while True:
-            product_download_size = input("Product Download Size (MB): ")
-            try:
-                product_download_size = float(product_download_size)
-                if product_download_size < 0:
-                    print("The entered Download Size cannot be negative.")
-                    continue
-            except ValueError:
-                print("The entered Download Size is not a valid number.")
-                continue
-            break
+        product_download_size = get_positive_float("Product Download Size (MB): ")
     print()
     if product_type == "physical":
         product = ProductFactory.create(
